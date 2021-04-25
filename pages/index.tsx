@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="flex min-h-screen flex-col ">
       <Nav />
-      <main className="pt-20 pl-5 pr-5 flex-1 w-full md:max-w-7xl md:mx-auto">
+      <main className="pt-20 pl-5 pr-5 flex-1 w-full md:max-w-6xl md:mx-auto">
         <Form />
         <Grid />
       </main>

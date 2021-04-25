@@ -10,7 +10,7 @@ export function Footer() {
   if (isTabletSize) {
     return (
       <footer className="bg-[#476D1A] p-10">
-        <div className="flex md:max-w-7xl md:mx-auto">
+        <div className="flex md:max-w-6xl md:mx-auto">
           <div className="mr-7">
             <div className="inline-flex items-center self-start p-2 pl-4 pr-4 bg-white rounded-[5px] mb-2">
               <Logo width={30} height={30} className="mr-2" />
