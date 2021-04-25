@@ -2,7 +2,10 @@ import CardMenu from "../assets/card-menu.svg";
 
 export function Card() {
   return (
-    <div className="border-[3px] border-[#EAEAEA] rounded-[10px] p-5 bg-white mb-5 relative">
+    <div
+      style={{ flexBasis: "25%" }}
+      className="border-[3px] border-[#EAEAEA] rounded-[10px] p-5 bg-white  relative sm:flex-1"
+    >
       <CardMenu className="absolute right-4" />
       <p className="text-sm font-bold line-clamp-2">
         Give Ielts Exam as soon as possible
