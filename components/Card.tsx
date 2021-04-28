@@ -23,7 +23,7 @@ export function Card() {
       </div>
       <div className="flex justify-between mt-4 text-sm font-semibold text-[#5C5C5C]">
         <p className="text-center">
-          7 <br /> days
+          7 <br /> Days
         </p>
         <div className=" border-r-2 "></div>
 
