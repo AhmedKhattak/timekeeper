@@ -104,11 +104,12 @@ interface IAddCardDialog {
 }
 
 export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
-  const [selectedDate, handleDateChange] = useState(new Date());
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
   const {
     register,
     handleSubmit,
+    setValue,
+    reset,
     getValues,
     watch,
     formState: { errors },
@@ -116,7 +117,9 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
 
   const onSubmit = (data) => console.log(data);
   const cardType = watch("cardType");
-  console.log(cardType);
+  const date = watch("date");
+  console.log("errors", errors);
+  console.log("getValues", getValues());
 
   return (
     <>
@@ -124,7 +127,10 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
         <ThemeProvider theme={defaultMaterialTheme}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <div
-              onClick={onDialogClose}
+              onClick={() => {
+                reset();
+                onDialogClose();
+              }}
               className="fixed left-0 right-0 top-0 bottom-0 z-[100] bg-[rgba(0,0,0,0.3)] flex flex-col  justify-end m-sm:items-center m-sm:justify-center"
             >
               <div
@@ -134,7 +140,13 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="flex justify-between font-semibold items-center text-lg border-b-[1px] border-[#D3D3D3] pb-5 pl-5 pr-5">
                     <p>Create a time card</p>
-                    <button className="p-1" onClick={onDialogClose}>
+                    <button
+                      className="p-1"
+                      onClick={() => {
+                        reset();
+                        onDialogClose();
+                      }}
+                    >
                       <CrossSvg />
                     </button>
                   </div>
@@ -195,9 +207,12 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
                     onClick={() => setIsDateModalOpen(true)}
                     type="text"
                     {...register("date", { required: true })}
-                    value={selectedDate.toDateString()}
+                    placeholder="Select Date"
                     className="w-full pl-3 mt-4 h-11 outline-none appearance-none rounded-[10px] transition focus:ring  focus:ring-[#476D1A]   p-2 border-solid  border-[3px]"
                   />
+                  <p className="text-sm h-3 mt-1 text-red-500 font-medium">
+                    {errors.date && "This is required"} &nbsp;
+                  </p>
                   <DatePicker
                     open={isDateModalOpen}
                     onOpen={() => setIsDateModalOpen(true)}
@@ -206,8 +221,12 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
                     style={{ display: "none" }}
                     inputVariant="outlined"
                     variant="dialog"
-                    value={selectedDate}
-                    onChange={handleDateChange}
+                    value={date}
+                    onChange={(date) =>
+                      setValue("date", date.toDateString(), {
+                        shouldValidate: true,
+                      })
+                    }
                   />
                   <div className="absolute bottom-0 left-0 right-0 rounded-bl-[14px] rounded-br-[14px] flex justify-end p-3 bg-[#F0F3EC]">
                     <button className="pl-5 pr-5 bg-[#476D1A]  h-[44px] rounded-[10px] text-white flex justify-center items-center  text-[16px] ">
