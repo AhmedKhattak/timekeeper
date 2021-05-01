@@ -11,6 +11,12 @@ module.exports = {
     extend: {},
 
     screens: {
+      "xx-sm": "375px",
+      // => @media (min-width: 375px) { ... }
+      "x-sm": "416px",
+      // => @media (min-width: 416px) { ... }
+      "m-sm": "520px",
+      // => @media (min-width: 520px) { ... }
       sm: "640px",
       // => @media (min-width: 640px) { ... }
 
@@ -36,5 +42,10 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require("@tailwindcss/line-clamp"), require("@tailwindcss/forms")],
+  plugins: [
+    require("@tailwindcss/line-clamp"),
+    require("@tailwindcss/forms")({
+      strategy: "class",
+    }),
+  ],
 };
