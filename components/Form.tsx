@@ -3,7 +3,8 @@ import PlusIcon from "../assets/plus.svg";
 import FilterIcon from "../assets/filter.svg";
 import { useMediaQuery } from "react-responsive";
 import { useState } from "react";
-import ClickAwayListener from "react-click-away-listener";
+// import ClickAwayListener from "react-click-away-listener";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 interface IForm {
   onCreateButtonClick: () => void;
@@ -14,56 +15,67 @@ export function Form({ onCreateButtonClick }: IForm) {
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
+
+  console.log(isMenuOpen);
   return (
     <>
       {/* desktop nav */}
       <div className="hidden md-one:flex relative  items-center pt-16 pb-6 border-b-[1px] border-[#D3D3D3] ">
         <p className="font-semibold text-3xl">Timers</p>
 
-        <div className="flex   ml-auto text-lg items-center space-x-4">
-          <button
-            onClick={onCreateButtonClick}
-            className="pl-5 pr-5 bg-[#476D1A]  h-[44px] rounded-[10px] text-white flex justify-center items-center  text-[16px] "
-          >
-            <PlusIcon className="mr-3" />
-            <span>Add Card</span>
-          </button>
-          <div className="w-96 rounded-[10px] flex-1  border-2 h-[46px] border-[#EAEAEA]  relative">
-            <input
-              placeholder="Search Cards"
-              type="text"
-              className="form-input outline-none appearance-none w-full rounded-[10px] h-full  pl-2 pr-9 font-medium  transition border-transparent "
-            />
-            <SearchIcon className="absolute right-2 top-[7px]" />
-          </div>
-
-          <button
-            onClick={toggleMenu}
-            className=" pl-5 pr-5   h-[44px] border-4 border-[#D3D3D3] rounded-[10px] flex justify-center items-center text-[16px]"
-          >
-            <span>Filter</span>
-            <FilterIcon className="ml-3" />
-          </button>
-        </div>
-
-        {isMenuOpen && (
-          <ClickAwayListener onClickAway={() => setIsMenuOpen(false)}>
-            <div className="absolute hidden md-one:block z-50 bg-white shadow-md rounded-[10px] max-w-xs  w-72  h-72 right-0  top-[120px] p-5">
-              <p className="font-bold rounded-[10px] mb-2">Sort By</p>
-              <p className="p-2 rounded-[10px] mt-1 mb-1">Title</p>
-              <p className="p-2 bg-[#EBEEE8] rounded-[10px] mt-1 mb-2">Date</p>
-              <p className="font-bold rounded-[10px]  mb-2">Group by</p>
-              <p className="p-2 rounded-[10px] mt-1 mb-1">Card type</p>
-
-              <div className="absolute bottom-0 left-0 right-0 rounded-bl-[10px] rounded-br-[10px] flex justify-end p-3 bg-[#F0F3EC]">
-                <button className="pl-5 pr-5 bg-[#476D1A]  h-[33px] rounded-[10px] text-white flex justify-center items-center  text-[16px] ">
-                  <PlusIcon className="mr-3" />
-                  <span>Add Card</span>
-                </button>
-              </div>
+        <ClickAwayListener onClickAway={() => setIsMenuOpen(false)}>
+          <div className="flex ml-auto text-lg items-center space-x-4">
+            <button
+              onClick={onCreateButtonClick}
+              className="pl-5 pr-5 bg-[#476D1A]  h-[44px] rounded-[10px] text-white flex justify-center items-center  text-[16px] "
+            >
+              <PlusIcon className="mr-3" />
+              <span>Add Card</span>
+            </button>
+            <div className="w-96 rounded-[10px] flex-1  border-2 h-[46px] border-[#EAEAEA]  relative">
+              <input
+                placeholder="Search Cards"
+                type="text"
+                className="form-input outline-none appearance-none w-full rounded-[10px] h-full  pl-2 pr-9 font-medium  transition border-transparent "
+              />
+              <SearchIcon className="absolute right-2 top-[7px]" />
             </div>
-          </ClickAwayListener>
-        )}
+
+            <button
+              onClick={(e) => {
+                toggleMenu();
+                e.stopPropagation();
+              }}
+              className=" pl-5 pr-5   h-[44px] border-4 border-[#D3D3D3] rounded-[10px] flex justify-center items-center text-[16px]"
+            >
+              <span>Filter</span>
+              <FilterIcon className="ml-3" />
+            </button>
+
+            {isMenuOpen && (
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="absolute bg-white rounded-[10px] z-50 x-sm:left-auto  x-sm:w-72 h-72 right-0 left-0 top-[140px] p-5 shadow-md"
+                // className="absolute hidden md-one:block z-50 bg-white shadow-md rounded-[10px] max-w-xs  w-72  h-72 right-0  top-[120px] p-5"
+              >
+                <p className="font-bold rounded-[10px] mb-2">Sort By</p>
+                <p className="p-2 rounded-[10px] mt-1 mb-1">Title</p>
+                <p className="p-2 bg-[#EBEEE8] rounded-[10px] mt-1 mb-2">
+                  Date
+                </p>
+                <p className="font-bold rounded-[10px]  mb-2">Group by</p>
+                <p className="p-2 rounded-[10px] mt-1 mb-1">Card type</p>
+
+                <div className="absolute bottom-0 left-0 right-0 rounded-bl-[10px] rounded-br-[10px] flex justify-end p-3 bg-[#F0F3EC]">
+                  <button className="pl-5 pr-5 bg-[#476D1A]  h-[33px] rounded-[10px] text-white flex justify-center items-center  text-[16px] ">
+                    <PlusIcon className="mr-3" />
+                    <span>Add Card</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </ClickAwayListener>
       </div>
 
       {/* mobile nav */}
@@ -79,41 +91,53 @@ export function Form({ onCreateButtonClick }: IForm) {
             <SearchIcon className="absolute right-2 top-[7px]" />
           </div>
         </form>
-        <div className="flex mt-3 pb-5 justify-end border-b-[1px] border-[#D3D3D3]">
-          <button
-            onClick={onCreateButtonClick}
-            className=" pl-4 pr-4 bg-[#476D1A] h-10 rounded-[10px] text-white flex justify-center items-center mr-1 text-[14px] "
-          >
-            <PlusIcon className="mr-3" />
-            <span>Add Card</span>
-          </button>
-          <button
-            onClick={toggleMenu}
-            className=" pl-4 pr-4  h-10 ml-1 border-4 border-[#D3D3D3] rounded-[10px] flex justify-center items-center text-[14px]"
-          >
-            <span>Filter</span>
-            <FilterIcon className="ml-3" />
-          </button>
-        </div>
-
-        {isMenuOpen && (
-          <ClickAwayListener onClickAway={() => setIsMenuOpen(false)}>
-            <div className="absolute bg-white rounded-[10px] z-50 x-sm:left-auto  x-sm:w-72 h-72 right-0 left-0 top-[140px] p-5 shadow-md">
-              <p className="font-bold rounded-[10px] mb-2">Sort By</p>
-              <p className="p-2 rounded-[10px] mt-1 mb-1">Title</p>
-              <p className="p-2 bg-[#EBEEE8] rounded-[10px] mt-1 mb-2">Date</p>
-              <p className="font-bold rounded-[10px]  mb-2">Group by</p>
-              <p className="p-2 rounded-[10px] mt-1 mb-1">Card type</p>
-
-              <div className="absolute bottom-0 left-0 right-0 rounded-bl-[10px] rounded-br-[10px] flex justify-end p-3 bg-[#F0F3EC]">
-                <button className="pl-5 pr-5 bg-[#476D1A]  h-[33px] rounded-[10px] text-white flex justify-center items-center  text-[16px] ">
-                  <PlusIcon className="mr-3" />
-                  <span>Add Card</span>
-                </button>
-              </div>
+        <ClickAwayListener onClickAway={() => setIsMenuOpen(false)}>
+          <div>
+            <div className="flex mt-3 pb-5 justify-end border-b-[1px] border-[#D3D3D3]">
+              <button
+                onClick={onCreateButtonClick}
+                className=" pl-4 pr-4 bg-[#476D1A] h-10 rounded-[10px] text-white flex justify-center items-center mr-1 text-[14px] "
+              >
+                <PlusIcon className="mr-3" />
+                <span>Add Card</span>
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleMenu();
+                }}
+                className=" pl-4 pr-4  h-10 ml-1 border-4 border-[#D3D3D3] rounded-[10px] flex justify-center items-center text-[14px]"
+              >
+                <span>Filter</span>
+                <FilterIcon className="ml-3" />
+              </button>
             </div>
-          </ClickAwayListener>
-        )}
+
+            {isMenuOpen && (
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                className="absolute bg-white rounded-[10px] z-50 x-sm:left-auto  x-sm:w-72 h-72 right-0 left-0 top-[140px] p-5 shadow-md"
+              >
+                <p className="font-bold rounded-[10px] mb-2">Sort By</p>
+                <p className="p-2 rounded-[10px] mt-1 mb-1">Title</p>
+                <p className="p-2 bg-[#EBEEE8] rounded-[10px] mt-1 mb-2">
+                  Date
+                </p>
+                <p className="font-bold rounded-[10px]  mb-2">Group by</p>
+                <p className="p-2 rounded-[10px] mt-1 mb-1">Card type</p>
+
+                <div className="absolute bottom-0 left-0 right-0 rounded-bl-[10px] rounded-br-[10px] flex justify-end p-3 bg-[#F0F3EC]">
+                  <button className="pl-5 pr-5 bg-[#476D1A]  h-[33px] rounded-[10px] text-white flex justify-center items-center  text-[16px] ">
+                    <PlusIcon className="mr-3" />
+                    <span>Add Card</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </ClickAwayListener>
       </div>
     </>
   );

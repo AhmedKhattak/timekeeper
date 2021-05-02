@@ -7,6 +7,8 @@ import CrossSvg from "../assets/cross.svg";
 import PlusIcon from "../assets/plus.svg";
 import { useForm } from "react-hook-form";
 import { db } from "../database/db";
+import { ErrorMessage } from "@hookform/error-message";
+import { AnimatePresence, motion } from "framer-motion";
 
 const defaultMaterialTheme = createMuiTheme({
   overrides: {
@@ -104,6 +106,11 @@ interface IAddCardDialog {
   onDialogClose: () => void;
 }
 
+const defaultValues = {
+  cardType: "",
+  title: "",
+  date: null,
+};
 export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
   const {
@@ -114,34 +121,41 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
     getValues,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues,
+  });
 
   const onSubmit = (data) => {
     console.log(data);
+
     db.timecards.add({
       text: data.title,
       date: data.date,
       cardType: data.cardType,
     });
-    reset();
+    reset(defaultValues);
     onDialogClose();
   };
   const cardType = watch("cardType");
   const date = watch("date");
 
   return (
-    <>
-      {isOpen && (
-        <ThemeProvider theme={defaultMaterialTheme}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <div
+    <ThemeProvider theme={defaultMaterialTheme}>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ easings: "linear", duration: 0.15 }}
               onClick={() => {
                 reset();
                 onDialogClose();
               }}
               className="fixed left-0 right-0 top-0 bottom-0 z-[100] bg-[rgba(0,0,0,0.3)] flex flex-col  justify-end m-sm:items-center m-sm:justify-center"
             >
-              <div
+              <motion.div
                 onClick={(e) => e.stopPropagation()}
                 className="bg-white pb-20 p-3 pt-5 m-sm:p-5 m-sm:pb-20  m-sm:w-[520px] relative  rounded-tl-[14px] rounded-tr-[14px] m-sm:rounded-bl-[14px] m-sm:rounded-br-[14px]"
               >
@@ -151,7 +165,12 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
                     <button
                       className="p-1"
                       onClick={() => {
-                        reset();
+                        reset(
+                          {},
+                          {
+                            keepIsSubmitted: false,
+                          }
+                        );
                         onDialogClose();
                       }}
                     >
@@ -212,12 +231,18 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
                   <p className="font-semibold text-sm mt-4">Card Title</p>
                   <input
                     type="text"
-                    {...register("title", { required: true })}
+                    {...register("title", {
+                      required: true,
+                      minLength: 4,
+                      // maxLength: 30,
+                    })}
                     placeholder="Set Title"
-                    className="w-full pl-3 mt-2 h-11 outline-none appearance-none rounded-[10px] transition focus:ring  focus:ring-[#476D1A]   p-2 border-solid  border-[3px]"
+                    className="w-full  m-sm:w-4/5 pl-3 mt-2 h-11 outline-none appearance-none rounded-[10px] transition focus:ring  focus:ring-[#476D1A]   p-2 border-solid  border-[3px]"
                   />
+
                   <p className="text-sm h-3 mt-1 text-red-500 font-medium">
-                    {errors.title && "This is required"} &nbsp;
+                    {errors.title && "Min 4 characters required"}
+                    &nbsp;
                   </p>
 
                   <p className="font-semibold text-sm mt-4">Start Date</p>
@@ -227,7 +252,7 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
                     type="text"
                     {...register("date", { required: true })}
                     placeholder="Select Date"
-                    className="w-full pl-3 mt-2 h-11 outline-none appearance-none rounded-[10px] transition focus:ring  focus:ring-[#476D1A]   p-2 border-solid  border-[3px]"
+                    className="w-full  m-sm:w-4/5 cursor-pointer pl-3 mt-2 h-11 outline-none appearance-none rounded-[10px] transition focus:ring  focus:ring-[#476D1A]   p-2 border-solid  border-[3px]"
                   />
                   <p className="text-sm h-3 mt-1 text-red-500 font-medium">
                     {errors.date && "This is required"} &nbsp;
@@ -254,11 +279,11 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
                     </button>
                   </div>
                 </form>
-              </div>
-            </div>
-          </MuiPickersUtilsProvider>
-        </ThemeProvider>
-      )}
-    </>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </MuiPickersUtilsProvider>
+    </ThemeProvider>
   );
 }

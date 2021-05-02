@@ -8,7 +8,7 @@ interface IGrid {
   onCreateButtonClick: () => void;
 }
 export function Grid({ onCreateButtonClick }: IGrid) {
-  const data = useLiveQuery(() => db.timecards.toArray());
+  const data = useLiveQuery(() => db.timecards.reverse().toArray());
 
   if (!data) {
     return <p>Loading...</p>;
@@ -20,7 +20,7 @@ export function Grid({ onCreateButtonClick }: IGrid) {
 
   return (
     <div
-      className={`mt-5 grid gap-y-4 sm:grid-cols-2 md-one:grid-cols-3 gap-x-3  mb-24 `}
+      className={`mt-5 grid gap-y-4 grid-cols-1 sm:grid-cols-2 md-one:grid-cols-3 gap-x-3  mb-24 `}
     >
       {data?.map((timeCard) => (
         <Card key={timeCard.id} {...timeCard} />
