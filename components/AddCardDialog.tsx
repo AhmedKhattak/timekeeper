@@ -6,6 +6,7 @@ import { ThemeProvider } from "@material-ui/styles";
 import CrossSvg from "../assets/cross.svg";
 import PlusIcon from "../assets/plus.svg";
 import { useForm } from "react-hook-form";
+import { db } from "../database/db";
 
 const defaultMaterialTheme = createMuiTheme({
   overrides: {
@@ -115,11 +116,18 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    db.timecards.add({
+      text: data.title,
+      date: data.date,
+      cardType: data.cardType,
+    });
+    reset();
+    onDialogClose();
+  };
   const cardType = watch("cardType");
   const date = watch("date");
-  console.log("errors", errors);
-  console.log("getValues", getValues());
 
   return (
     <>
@@ -135,7 +143,7 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
             >
               <div
                 onClick={(e) => e.stopPropagation()}
-                className="bg-white pb-28 p-3 pt-5 m-sm:p-5 m-sm:pb-28   m-sm:w-[520px] relative  rounded-tl-[14px] rounded-tr-[14px] m-sm:rounded-bl-[14px] m-sm:rounded-br-[14px]"
+                className="bg-white pb-20 p-3 pt-5 m-sm:p-5 m-sm:pb-20  m-sm:w-[520px] relative  rounded-tl-[14px] rounded-tr-[14px] m-sm:rounded-bl-[14px] m-sm:rounded-br-[14px]"
               >
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="flex justify-between font-semibold items-center text-lg border-b-[1px] border-[#D3D3D3] pb-5 pl-5 pr-5">
@@ -151,7 +159,7 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
                     </button>
                   </div>
 
-                  <p className="font-semibold text-sm mt-6">Card Type</p>
+                  <p className="font-semibold text-sm mt-4">Card Type</p>
                   <div className="flex mt-3 space-x-2 r">
                     <label
                       className={`flex-1 flex bg-[#F2F5EF] p-3 space-x-3 rounded-[10px] ${
@@ -201,14 +209,25 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
                   <p className="text-sm h-3 mt-1 text-red-500 font-medium">
                     {errors.cardType && "This is required"} &nbsp;
                   </p>
-                  <p className="font-semibold text-sm mt-5">Start Date</p>
+                  <p className="font-semibold text-sm mt-4">Card Title</p>
+                  <input
+                    type="text"
+                    {...register("title", { required: true })}
+                    placeholder="Set Title"
+                    className="w-full pl-3 mt-2 h-11 outline-none appearance-none rounded-[10px] transition focus:ring  focus:ring-[#476D1A]   p-2 border-solid  border-[3px]"
+                  />
+                  <p className="text-sm h-3 mt-1 text-red-500 font-medium">
+                    {errors.title && "This is required"} &nbsp;
+                  </p>
+
+                  <p className="font-semibold text-sm mt-4">Start Date</p>
                   <input
                     readOnly
                     onClick={() => setIsDateModalOpen(true)}
                     type="text"
                     {...register("date", { required: true })}
                     placeholder="Select Date"
-                    className="w-full pl-3 mt-4 h-11 outline-none appearance-none rounded-[10px] transition focus:ring  focus:ring-[#476D1A]   p-2 border-solid  border-[3px]"
+                    className="w-full pl-3 mt-2 h-11 outline-none appearance-none rounded-[10px] transition focus:ring  focus:ring-[#476D1A]   p-2 border-solid  border-[3px]"
                   />
                   <p className="text-sm h-3 mt-1 text-red-500 font-medium">
                     {errors.date && "This is required"} &nbsp;

@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { useState } from "react";
 import { AddCardDialog } from "../components/AddCardDialog";
-import { EmptyState } from "../components/EmptyState";
 
 import { Footer } from "../components/Footer";
 import { Form } from "../components/Form";
@@ -30,8 +29,7 @@ export default function Home() {
         <Nav />
         <main className="pt-20 pl-5 pr-5 flex-1 w-full md:max-w-6xl md:mx-auto">
           <Form onCreateButtonClick={openDialog} />
-          <Grid />
-          {/* <EmptyState onCreateButtonClick={openDialog} /> */}
+          <Grid onCreateButtonClick={openDialog} />
         </main>
 
         <Footer />
