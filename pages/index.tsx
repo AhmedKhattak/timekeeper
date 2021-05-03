@@ -17,7 +17,7 @@ export default function Home() {
     setIsCreateDialogOpen(false);
   };
   return (
-    <>
+    <div>
       <AddCardDialog isOpen={isCreateDialogOpen} onDialogClose={closeDialog} />
       <Head>
         <meta
@@ -34,6 +34,6 @@ export default function Home() {
 
         <Footer />
       </div>
-    </>
+    </div>
   );
 }
