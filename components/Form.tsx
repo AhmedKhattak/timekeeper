@@ -41,7 +41,7 @@ export function Form({ onCreateButtonClick }: IForm) {
           mouseEvent="onClick"
           touchEvent={false}
         >
-          <div className="flex ml-auto text-lg items-center space-x-4">
+          <div className="flex ml-auto  items-center space-x-4">
             <button
               onClick={onCreateButtonClick}
               className="pl-5 pr-5 bg-[#476D1A]  h-[44px] rounded-[10px] text-white flex justify-center items-center  text-[16px] "
