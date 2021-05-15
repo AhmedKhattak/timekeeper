@@ -22,7 +22,7 @@ export interface ITimeCard {
   id?: number;
   date: Date;
   text: string;
-  cardType: string;
+  cardType: "countUp" | "countDown";
 }
 
 const db = new TimeKeeperDatabase();

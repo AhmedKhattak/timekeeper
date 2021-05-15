@@ -14,7 +14,10 @@ export function Nav() {
   return (
     <>
       {/* mobile nav */}
-      <nav className="border-b-2 border-[#EAEAEA] h-14 z-50 bg-white fixed left-0 right-0 flex md-two:hidden justify-between">
+      <nav
+        style={{ zIndex: 99 }}
+        className="border-b-2 border-[#EAEAEA] h-14  bg-white fixed left-0 right-0 flex md-two:hidden justify-between"
+      >
         <div className="flex items-center pl-2 pr-2">
           <Logo width={26} height={26} className="mr-1" />
           <span className="font-bold">TimeKeeper</span>
@@ -29,6 +32,7 @@ export function Nav() {
 
       {/* tablet and above nav */}
       <nav
+        style={{ zIndex: 99 }}
         className={
           "hidden border-b-2 bg-white border-[#EAEAEA] p-4 z-50  fixed left-0 right-0 md-two:flex item-center"
         }

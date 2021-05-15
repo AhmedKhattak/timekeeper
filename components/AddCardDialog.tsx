@@ -7,7 +7,7 @@ import CrossSvg from "../assets/cross.svg";
 import PlusIcon from "../assets/plus.svg";
 import { useForm } from "react-hook-form";
 import { db } from "../database/db";
-import { ErrorMessage } from "@hookform/error-message";
+
 import { AnimatePresence, m, motion } from "framer-motion";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -109,7 +109,7 @@ interface IAddCardDialog {
 }
 
 const defaultValues = {
-  cardType: "",
+  cardType: null,
   title: "",
   date: null,
 };
@@ -124,7 +124,7 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
 
   const formik = useFormik<{
-    cardType: string;
+    cardType: "countDown" | "countUp" | null;
     title: string;
     date: Date;
   }>({
@@ -154,7 +154,11 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ easings: "linear", duration: 0.15 }}
+              transition={{
+                easings: "linear",
+                duration: 0.15,
+                staggerChildren: 0.4,
+              }}
               onClick={(e) => {
                 onDialogClose();
                 formik.resetForm();
@@ -163,8 +167,15 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
               className="fixed left-0 right-0 top-0 bottom-0 z-[100] bg-[rgba(0,0,0,0.3)] flex flex-col  justify-end m-sm:items-center m-sm:justify-center"
             >
               <motion.div
+                initial={{ opacity: 0, y: 100 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 100 }}
+                transition={{
+                  easings: "easeOut",
+                  duration: 0.25,
+                }}
                 onClick={(e) => e.stopPropagation()}
-                className="bg-white pb-20 p-3 pt-5 m-sm:p-5 m-sm:pb-20  m-sm:w-[520px] relative  rounded-tl-[14px] rounded-tr-[14px] m-sm:rounded-bl-[14px] m-sm:rounded-br-[14px]"
+                className="bg-white pb-24 p-3 pt-5 m-sm:p-5 m-sm:pb-24  m-sm:w-[520px] relative  rounded-tl-[14px] rounded-tr-[14px] m-sm:rounded-bl-[14px] m-sm:rounded-br-[14px]"
               >
                 <form onSubmit={formik.handleSubmit}>
                   <div className="flex justify-between font-semibold items-center text-lg border-b-[1px] border-[#D3D3D3] pb-5 pl-5 pr-5">
@@ -182,7 +193,13 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
                     </button>
                   </div>
 
-                  <p className="font-semibold text-sm mt-4">Card Type</p>
+                  <div className="flex items-center space-x-2 mt-4">
+                    <p className="font-semibold text-sm4">Card Type</p>
+                    <p className="text-sm  text-red-500 font-medium">
+                      {formik.errors.cardType && "(This is required)"}
+                      &nbsp;
+                    </p>
+                  </div>
                   <div className="flex mt-3 space-x-2 r">
                     <label
                       className={`flex-1 flex bg-[#F2F5EF] p-3 space-x-3 rounded-[10px] ${
@@ -231,10 +248,15 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
                       </div>
                     </label>
                   </div>
-                  <p className="text-sm h-3 mt-1 text-red-500 font-medium">
-                    {formik.errors.cardType && "This is required"} &nbsp;
-                  </p>
-                  <p className="font-semibold text-sm mt-4">Card Title</p>
+
+                  <div className="flex items-center space-x-2 mt-4">
+                    <p className="font-semibold text-sm4">Card Title</p>
+                    <p className="text-sm  text-red-500 font-medium">
+                      {formik.errors.title && "(Min 4 characters required)"}
+                      &nbsp;
+                    </p>
+                  </div>
+
                   <input
                     type="text"
                     name="title"
@@ -243,12 +265,17 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
                     className="w-full  m-sm:w-4/5 pl-3 mt-2 h-11 outline-none appearance-none rounded-[10px] transition focus:ring  focus:ring-[#476D1A]   p-2 border-solid  border-[3px]"
                   />
 
-                  <p className="text-sm h-3 mt-1 text-red-500 font-medium">
-                    {formik.errors.title && "Min 4 characters required"}
-                    &nbsp;
-                  </p>
+                  <div className="flex items-center space-x-2 mt-4">
+                    <p className="font-semibold text-sm ">
+                      {formik.values.cardType === "countDown"
+                        ? "End Date"
+                        : "Start Date"}{" "}
+                    </p>
+                    <p className="text-sm text-red-500 font-medium">
+                      {formik.errors.date && "(This is required)"} &nbsp;
+                    </p>
+                  </div>
 
-                  <p className="font-semibold text-sm mt-4">Start Date</p>
                   <input
                     readOnly
                     onClick={() => setIsDateModalOpen(true)}
@@ -257,9 +284,7 @@ export function AddCardDialog({ isOpen, onDialogClose }: IAddCardDialog) {
                     placeholder="Select Date"
                     className="w-full  m-sm:w-4/5 cursor-pointer pl-3 mt-2 h-11 outline-none appearance-none rounded-[10px] transition focus:ring  focus:ring-[#476D1A]   p-2 border-solid  border-[3px]"
                   />
-                  <p className="text-sm h-3 mt-1 text-red-500 font-medium">
-                    {formik.errors.date && "This is required"} &nbsp;
-                  </p>
+
                   <DatePicker
                     open={isDateModalOpen}
                     onOpen={() => setIsDateModalOpen(true)}
