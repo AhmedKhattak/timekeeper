@@ -16,6 +16,8 @@ export default function Home() {
   const closeDialog = () => {
     setIsCreateDialogOpen(false);
   };
+
+  const [searchText, setSearchText] = useState<string>("");
   return (
     <div>
       <AddCardDialog isOpen={isCreateDialogOpen} onDialogClose={closeDialog} />
@@ -28,8 +30,12 @@ export default function Home() {
       <div className="flex min-h-screen flex-col ">
         <Nav />
         <main className="pt-20 pl-5 pr-5 flex-1 w-full md:max-w-6xl md:mx-auto">
-          <Form onCreateButtonClick={openDialog} />
-          <Grid onCreateButtonClick={openDialog} />
+          <Form
+            onCreateButtonClick={openDialog}
+            searchText={searchText}
+            setSearchText={setSearchText}
+          />
+          <Grid onCreateButtonClick={openDialog} searchText={searchText} />
         </main>
 
         <Footer />
