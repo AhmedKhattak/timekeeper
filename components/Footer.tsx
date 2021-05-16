@@ -1,6 +1,6 @@
 import Logo from "../assets/logo.svg";
-import GithubIcon from "../assets/github.svg";
-import LinkedinIcon from "../assets/linkedin.svg";
+import GithubSVG from "../assets/github.svg";
+import LinkedInSVG from "../assets/linkedin.svg";
 import DevToIcon from "../assets/devto.svg";
 import { useMediaQuery } from "react-responsive";
 
@@ -27,8 +27,8 @@ export function Footer() {
               </p>
               <div className="space-x-4 flex items-center">
                 <DevToIcon />
-                <LinkedinIcon />
-                <GithubIcon />
+                <LinkedInSVG fill="white" />
+                <GithubSVG fill="white" />
               </div>
             </div>
             <div className="flex">
@@ -68,8 +68,8 @@ export function Footer() {
           </div>
           <div className="flex-1 flex  space-x-4 items-start justify-end">
             <DevToIcon />
-            <LinkedinIcon />
-            <GithubIcon />
+            <LinkedInSVG fill="white" />
+            <GithubSVG fill="white" />
           </div>
         </div>
         <p className="text-white font-medium text-sm mt-4">
