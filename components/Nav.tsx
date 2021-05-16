@@ -83,7 +83,7 @@ export function Nav() {
               target="_blank"
               rel="noopener"
             >
-              LinkedIN
+              LinkedIn
             </a>
             <a
               className="hover:underline cursor-pointer"
