@@ -114,7 +114,7 @@ export function Form({
       <div className="block relative  md-one:hidden">
         <p className="font-semibold mb-2">Timers</p>
 
-        <div className="w-full rounded-[10px] border-2 h-10 border-[#EAEAEA] text-sm relative">
+        <div className="w-full rounded-[10px] border-2 h-12 border-[#EAEAEA] text-base relative">
           <input
             value={searchText}
             onChange={(e) => {
@@ -124,7 +124,7 @@ export function Form({
             type="text"
             className=" outline-none appearance-none w-full rounded-[10px] h-full  pl-2 pr-9 font-medium  transition border-transparent "
           />
-          <SearchIcon className="absolute right-2 top-[7px]" />
+          <SearchIcon className="absolute right-2 top-[12px]" />
         </div>
 
         <ClickAwayListener
