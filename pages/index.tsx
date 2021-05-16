@@ -21,12 +21,7 @@ export default function Home() {
   return (
     <div>
       <AddCardDialog isOpen={isCreateDialogOpen} onDialogClose={closeDialog} />
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0"
-        ></meta>
-      </Head>
+
       <div className="flex min-h-screen flex-col ">
         <Nav />
         <main className="pt-20 pl-5 pr-5 flex-1 w-full md:max-w-6xl md:mx-auto">

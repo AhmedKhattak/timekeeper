@@ -12,9 +12,9 @@ export function EmptyState({ onCreateButtonClick }: IEmptyState) {
         Create a time <br /> card
       </p>
       <p className="text-center mt-4 max-w-xs">
-        Time Cards can track <span className="font-bold">time since</span> or
-        <span className="font-bold"> time until</span> for any thing important
-        to you
+        Time Cards can track <span className="font-bold">time passed</span> or
+        <span className="font-bold"> time left</span> for any thing important to
+        you
       </p>
       <button
         onClick={onCreateButtonClick}
