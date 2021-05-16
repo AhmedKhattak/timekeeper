@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }) {
             "Track time passed or time left for things that are important to you!",
           images: [
             {
-              url: `https://timekeeper-beta.vercel.app/site-img.png`,
+              url: `https://timekeeper-beta.vercel.app/site-image.png`,
               width: 1200,
               height: 628,
               alt: "TimeKeeper site image",
