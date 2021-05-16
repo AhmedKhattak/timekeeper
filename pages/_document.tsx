@@ -6,9 +6,23 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="preconnect" href="https://fonts.gstatic.com" />
-          <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" />
+
+          <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+            rel="preload"
+            as="style"
+          />
+          <link
+            href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+          />
         </Head>
-        <body style={{ fontFamily: "Montserrat", backgroundColor: "#EFEFEF" }}>
+        <body
+          style={{
+            fontFamily: "Montserrat, sans-serif",
+            backgroundColor: "#EFEFEF",
+          }}
+        >
           <Main />
           <NextScript />
         </body>
